@@ -1,11 +1,5 @@
 import { Transform } from 'class-transformer';
-import {
-  IsNumber,
-  IsNumberString,
-  IsOptional,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsNumber, IsOptional, Max, Min } from 'class-validator';
 
 export class ReadQueryDto {
   @Min(5)
@@ -15,7 +9,8 @@ export class ReadQueryDto {
   @Transform((v) => Number(v.value))
   limit: number;
 
-  @IsNumberString()
+  @Min(1)
+  @IsNumber()
   @IsOptional()
   @Transform((v) => Number(v.value))
   page: number;

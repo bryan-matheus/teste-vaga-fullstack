@@ -33,11 +33,13 @@ import { useState } from "react"
 
 type Props<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: TData[];
+  onNextPage: () => void;
+  onPreviousPage: () => void;
 }
 
 export function DataTable<TData, TValue>(props: Props<TData, TValue>) {
-  const { columns, data } = props;
+  const { columns, data, onNextPage, onPreviousPage } = props;
 
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -45,7 +47,7 @@ export function DataTable<TData, TValue>(props: Props<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({})
 
   const table = useReactTable({
-    data,
+    data: (data as any)?.data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -151,25 +153,26 @@ export function DataTable<TData, TValue>(props: Props<TData, TValue>) {
           </TableBody>
         </Table>
       </div>
+
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {(data as any).total} row(s) selected.
         </div>
         <div className="space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={onPreviousPage}
+            disabled={!(data as any).previousPage}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={onNextPage}
+            disabled={!(data as any).nextPage}
           >
             Next
           </Button>
