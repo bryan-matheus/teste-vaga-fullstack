@@ -24,12 +24,9 @@ export class CsvService {
         fs.createReadStream(pathToDataCsv)
           .pipe(csv())
           .on('data', (data) => {
-            // TODO: Carregar conforme o pedido
-
             return results.push(data);
           })
           .on('end', () => {
-            // console.log({ results });
             resolve(results);
           })
           .on('error', reject);

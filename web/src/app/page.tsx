@@ -1,4 +1,5 @@
 'use client'
+
 import { DataTable } from '@/components/data/DataTable'
 import { columns } from '@/components/data/columns'
 import useSWR from 'swr';

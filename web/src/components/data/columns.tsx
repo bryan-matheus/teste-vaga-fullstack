@@ -6,6 +6,9 @@ import * as cpf from 'validation-br/dist/cpf'
 import * as cnpj from 'validation-br/dist/cnpj'
 import { lightFormat, parse } from "date-fns"
 import { cn } from "@/lib/utils"
+import { Button } from "../ui/Button"
+import { ArrowUpIcon } from "@radix-ui/react-icons"
+import { isCNPJ, isCPF } from "validation-br"
 
 export type Data = {
   nrInst: number;
@@ -45,13 +48,13 @@ export const columns: ColumnDef<Data>[] = [
   {
     accessorKey: "nrCpfCnpj",
     cell: ({ row }) => {
-      const nr = String(row.getValue("nrCpfCnpj"));
+      const nr = String(row.getValue("nrCpfCnpj")).trim();
 
-      if (cpf.validate(nr)) {
+      if (isCPF(nr)) {
         return cpf.mask(nr);
       }
 
-      if (cnpj.validate(nr)) {
+      if (isCNPJ(nr)) {
         return cnpj.mask(nr);
       }
 
@@ -77,6 +80,17 @@ export const columns: ColumnDef<Data>[] = [
   { accessorKey: "qtPrestacoes" },
   {
     accessorKey: "vlTotal",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          vlTotal
+          <ArrowUpIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("vlTotal")) ?? 0
       const formatted = new Intl.NumberFormat("pt-BR", {
