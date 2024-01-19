@@ -7,7 +7,7 @@ import useSWR from 'swr';
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 export default function Home() {
-  const { data: result, error, isLoading } = useSWR('http://localhost:3001/csv?limit=10', fetcher)
+  const { data: result, error } = useSWR('http://localhost:3001/csv?limit=10', fetcher)
   console.error("🚀 ~ Home ~ error:", error);
 
   return (

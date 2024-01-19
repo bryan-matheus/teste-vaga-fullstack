@@ -4,8 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 
 import * as cpf from 'validation-br/dist/cpf'
 import * as cnpj from 'validation-br/dist/cnpj'
-import { lightFormat, parse } from "date-fns"
-import { cn } from "@/lib/utils"
+import { lightFormat } from "date-fns"
 import { Button } from "../ui/Button"
 import { ArrowUpIcon } from "@radix-ui/react-icons"
 import { isCNPJ, isCPF } from "validation-br"
